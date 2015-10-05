@@ -18,6 +18,7 @@ type EmbarkationCardRequest struct {
 	Nationality         string `json:"nationality"`
 	FlightCode          string `json:"flight_code"`
 	EmbarkationLocation string `json:"embarkation_location"`
+	MalaysianIC         string `json:"malaysian_ic"`
 	Format              string
 }
 
@@ -60,4 +61,16 @@ func (r EmbarkationCardRequest) CheckFormat() error {
 		return fmt.Errorf(strings.Join(errorStrings, "\n"))
 	}
 	return nil
+}
+
+func (r *EmbarkationCardRequest) Parse() {
+	r.Fullname = strings.ToUpper(r.Fullname)
+	r.Gender = strings.ToUpper(r.Gender)
+	r.PassportNumber = strings.ToUpper(r.PassportNumber)
+	r.PlaceOfIssue = strings.ToUpper(r.PlaceOfIssue)
+	r.CountryOfBirth = strings.ToUpper(r.CountryOfBirth)
+	r.Nationality = strings.ToUpper(r.Nationality)
+	r.FlightCode = strings.ToUpper(r.FlightCode)
+	r.EmbarkationLocation = strings.ToUpper(r.EmbarkationLocation)
+	r.MalaysianIC = strings.ToUpper(r.MalaysianIC)
 }

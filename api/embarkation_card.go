@@ -1,17 +1,20 @@
 package api
 
 import (
-	"embark/dto"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
+
+	"github.com/alienchow/CAGHack/dto"
+	"github.com/alienchow/CAGHack/overlay"
 
 	"github.com/gorilla/mux"
 )
 
 const (
-	defaultFormat = `.pdf`
+	defaultFormat = `.png`
 )
 
 func EmbarkationCard(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +39,12 @@ func EmbarkationCard(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
 	}
+	request.Parse()
 
 	fmt.Printf("Received request: %+v\n", request)
-	w.WriteHeader(http.StatusOK)
+
+	buf := overlay.Process(request)
+	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Length", strconv.Itoa(buf.Len()))
+	_, err = w.Write(buf.Bytes())
 }

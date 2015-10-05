@@ -1,21 +1,24 @@
 package main
 
 import (
-	"embark/api"
 	"fmt"
 	"net/http"
+
+	"github.com/alienchow/CAGHack/api"
+	"github.com/alienchow/CAGHack/forms"
 
 	"github.com/gorilla/mux"
 )
 
 const (
-	host = "10.84.128.51"
+	host = "192.168.1.100"
 	port = "8081"
 )
 
 func main() {
 	r := mux.NewRouter()
 	doAPIRouting(r)
+	forms.Init()
 
 	fmt.Printf("Init API server on Host: %s, Port: %s\n", host, port)
 	http.ListenAndServe(host+":"+port, r)
